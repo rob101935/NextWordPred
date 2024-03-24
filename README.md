@@ -42,8 +42,8 @@ will return the top 5 most likely next words in a list of strings:
 ## Running Test cases using Pytest
 I implemented a few test cases using pytest to test various functionalities.
 
-Testing using Pytest
-from the root directory of the project run 
+Testing using Pytest using the test files in the tests subdirectory:
+To test from the root directory of the project run 
 `pytest tests\`
 
 
