@@ -13,10 +13,9 @@ https://medium.com/linagoralabs/next-word-prediction-a-complete-guide-d2e69a7a09
 
 
 ## Issues & Performance:
-It became apparent during training that the model would massively overfit if allowed to run more than 10 epochs despite having drop out layers in the model. Thus an early stopping callback was implemented to prevent the model from running when the validation losses were increasing. The model ran for 8 epochs with a Crossentropy validation loss of 6.2668. Testing on a set of the last 100 records the test accuracy was found to be slightly less at 5.3297, giving a perplexity of 206 vs our word vocab list of 7299. 
+It became apparent during training that the model would massively overfit if allowed to run more than 10 epochs despite having drop out layers in the model. Thus an early stopping callback was implemented to prevent the model from running when the validation losses were increasing. The model ran for 8 epochs with a Crossentropy validation loss of 6.2668. Testing on a set of the last 100 lines and converting into N-gram combinations up to n=12 (592 Ngrams in total) the test accuracy was found to be slightly less at 5.3297% , a perplexity of 206 was calculated vs our word vocab list of 7299. 
 
-When considering a smart phone keyboard whole word completion situation usually more than one word is suggested. I implemented the code to return the top 5 most likely suggestions by using top_k rather than argmax/softmax on the category probability output of the network. Looking at the accuracy of the model when considering suggesting 5 rather than one word, the accuracy of 31% is achieved. meaning one third of the time the model would give a correct suggestion within the first 5.
-
+While the accuracy suggested poor performance the perplexity is a more useful metrics when compared with the total vocabularly it is clear that the model is providing a lot of value in word prediction. When considering a smart phone keyboard whole word completion suggestion situation usually more than one word is suggested at a time. I implemented the code to return the top 5 most likely suggestions by using top_k rather than argmax/softmax on the category probability output of the network. Looking at the accuracy of the model when considering suggesting 5 rather than one word, the accuracy of 31% is achieved. Meaning almost one third of the time the model would give a correct suggestion within the first 5. The model was then packaged up in the next_word_pred package along with test cases in the test directory.
 
 
 ## Usage 
@@ -45,6 +44,9 @@ I implemented a few test cases using pytest to test various functionalities.
 Testing using Pytest using the test files in the tests subdirectory:
 To test from the root directory of the project run 
 `pytest tests\`
+
+## Issues shortcomings
+It is pretty obvious from the exploration that the model mainly performs well on simple common words such as the, a, you, etc. and does not do as well with nouns outside of pronouns and adjectives. It is also limited to the vocabulary of the test set and does not deal with casing or punctuation suggestions. For a single suggestion (rather than suggestion of 5 next possible words), the model is not very good, getting an accuracy of only 10% which is mainly common words in all sentences in the training data. This could possibly be overcome by using transfer learning from language models such as transformers that were trained on large internet corpuses.
 
 
 ## follow up with transformers
